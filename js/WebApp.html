@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Soccer Fact Generator Game</title>
+  <style>
+    body {
+      background-color: #f4faff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 30px;
+      color: #333;
+      text-align: center;
+    }
+
+    .quiz-box {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #00695c;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      background-color: #e0f2f1;
+      transition: 0.3s;
+    }
+
+    .options button:hover {
+      background-color: #b2dfdb;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .incorrect {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+    <a href="../Scratch.html">Back to Main Soccer Page</a>
+  <div class="quiz-box">
+    <h1>Soccer Fact Quiz</h1>
+    <p id="question">Loading question...</p>
+    <div class="options" id="options"></div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Which country has won the most FIFA World Cups?",
+        correct: "Brazil",
+        options: ["Germany", "Italy", "Argentina"]
+      },
+      {
+        question: "Who is known as the 'King of Football'?",
+        correct: "Pelé",
+        options: ["Maradona", "Messi", "Cristiano Ronaldo"]
+      },
+      {
+        question: "What is the standard length of a professional soccer match?",
+        correct: "90 minutes",
+        options: ["60 minutes", "100 minutes", "75 minutes"]
+      },
+      {
+        question: "Which part of the body can’t touch the ball in soccer (except the goalie)?",
+        correct: "Hands",
+        options: ["Head", "Chest", "Knee"]
+      }
+    ];
+
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const resultEl = document.getElementById('result');
+
+    let currentQuestion;
+
+    function loadQuestion() {
+      resultEl.textContent = '';
+      optionsEl.innerHTML = '';
+
+      currentQuestion = quizData[Math.floor(Math.random() * quizData.length)];
+
+      // Shuffle answer choices
+      const allAnswers = [...currentQuestion.options, currentQuestion.correct]
+        .sort(() => Math.random() - 0.5);
+
+      questionEl.textContent = currentQuestion.question;
+
+      allAnswers.forEach(answer => {
+        const btn = document.createElement('button');
+        btn.textContent = answer;
+        btn.onclick = () => handleAnswer(answer);
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selected) {
+      const isCorrect = selected === currentQuestion.correct;
+      resultEl.innerHTML = isCorrect
+        ? `<span class="correct">Correct! 🎉</span>`
+        : `<span class="incorrect">Wrong! 😬 The correct answer was <strong>${currentQuestion.correct}</strong>.</span>`;
+
+      setTimeout(loadQuestion, 2500); // Load new question after 2.5s
+    }
+
+    // Initialize
+    loadQuestion();
+  </script>
+
+</body>
+</html>
